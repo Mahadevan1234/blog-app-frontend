@@ -1,16 +1,36 @@
 import React, { useState } from 'react'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 const Addpost = () => {
     const [input,setInput]=useState(
         {
+            "userId":sessionStorage.getItem("userid"),
             "post":""
         }
     )
     const inputhandler=(event)=>{
         setInput({...input,[event.target.name]:event.target.value})
     }
-    const readvalues=()=>{}
+    const readvalues=()=>{
+        console.log(input)
+        axios.post("http://localhost:3000/api/posts/add",input).then(
+            (response)=>{
+                console.log(response.data)
+                if (response.data.status=="success") {
+                    alert("Successfully posted")
+                    setInput(
+                        {
+                            "userId":"",
+                            "post":""
+                        }
+                    )
+                } else {
+                    alert("Something went wrong")
+                }
+            }
+        )
+    }
   return (
     <div>
         <Navbar/>
@@ -23,7 +43,7 @@ const Addpost = () => {
                             <input type="text" className="form-control" name='post' value={input.post} onChange={inputhandler} />
                         </div>
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                            <button className="btn btn-success">Add Post</button>
+                            <button className="btn btn-success" onClick={readvalues}>Add Post</button>
                         </div>
                     </div>
                 </div>

@@ -20,7 +20,8 @@ const Loginpage = () => {
                 console.log(response.data)
                 if (response.data.status=="success") {
                     console.log(response.data.userData._id)
-                    //navigate("/add")
+                    sessionStorage.setItem("userid",response.data.userData._id)
+                    navigate("/add")
                 } 
                 else if (response.data.status=="incorrect password") {
                     alert("enter correct password")
